@@ -2,36 +2,23 @@ const bcrypt = require("bcrypt");
 const { app } = require("..");
 const User = require("../models/Users");
 const mongoose = require("mongoose");
-const uri = process.env.mongoDB_URI;
+const { signJWT } = require("../modules/main");
+const randomString = require("randomstring");
 
-app.get("/connect", (req, res) => {
-  mongoose
-    .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then((result) => {
-      res.json({
-        connected: true,
-        message: "Connected Successfully",
-        samp: result.version,
-      });
-    })
-    .catch((err) => {
-      res.json({
-        connected: false,
-      });
-    });
-});
 app.post("/user/register", (req, res) => {
   const { name, email, password } = req.body;
-  //   Check if user already exists
+  //Check if user already exists
   User.findOne(
     {
       email: email,
     },
     (err, response) => {
-      if (Object.entries(response).length === 0) {
+      console.log(response);
+      if (response !== null) {
         //User already exists
         res.json({
           userExists: true,
+          success: false,
         });
       } else {
         // User does not exist so create user
@@ -44,16 +31,25 @@ app.post("/user/register", (req, res) => {
             throw err;
           } else {
             bcrypt.hash(password, salt, (err, hash) => {
-              console.log("The password hash: ", hash);
+              //Generate random string for user id with email
+              const random = randomString.generate({
+                length: 12,
+                charset: "alphanumeric",
+              });
+              const userID = random.concat(email);
+              console.log("THe ID: ", userID);
+              //Store new user with password hash and userID
               const user = new User({
+                userID: userID,
                 name: name,
                 email: email,
                 password: hash,
               });
               user.save();
+              const token = signJWT(userID);
               res.json({
-                hash: "successful",
-                body: hash,
+                success: true,
+                token: token,
               });
             });
           }
@@ -66,4 +62,14 @@ app.post("/user/register", (req, res) => {
 app.post("/user/login", (req, res) => {
   const { email, password } = req.body;
   //Find if email exists in DB
+  User.findOne({ email: email }, (err, response) => {
+    if (Object.entries(response).length === 0) {
+      // Record not found
+      res.json({
+        auth: false,
+      });
+    } else {
+      //Check if password matches
+    }
+  });
 });

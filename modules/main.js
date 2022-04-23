@@ -1,6 +1,12 @@
 const jwt = require("jsonwebtoken");
 const jwtSecret = process.env.secret;
 
+const signJWT = (userID) => {
+  const token = jwt.sign({ userID }, jwtSecret, {
+    expiresIn: 72000,
+  });
+  return token;
+};
 const verifyJWT = (req, res, next) => {
   const token = req.headers["x-access-token"];
   if (!token) {
@@ -26,4 +32,5 @@ const verifyJWT = (req, res, next) => {
 };
 module.exports = {
   verifyJWT: verifyJWT,
+  signJWT: signJWT,
 };
