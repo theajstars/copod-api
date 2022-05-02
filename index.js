@@ -8,7 +8,7 @@ const uri = process.env.mongoDB_URI;
 
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://127.0.0.1:5500"],
     methods: ["GET", "POST"],
   })
 );
@@ -42,3 +42,4 @@ module.exports = {
   app: app,
 };
 require("./routes/auth");
+require("./routes/getFiles");
