@@ -17,12 +17,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const port = process.env.PORT;
 
-app.post("/", (req, res) => {
-  console.log(req.body);
-  res.json({
-    a: "b",
-  });
-});
 app.get("/", (req, res) => {
   res.json({
     message: "Connected successfully!",

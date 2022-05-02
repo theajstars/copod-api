@@ -1,7 +1,6 @@
 const bcrypt = require("bcrypt");
 const { app } = require("..");
 const User = require("../models/Users");
-const mongoose = require("mongoose");
 const { signJWT } = require("../modules/main");
 const randomString = require("randomstring");
 
@@ -61,6 +60,7 @@ app.post("/user/register", (req, res) => {
 
 app.post("/user/login", (req, res) => {
   const { email, password } = req.body;
+  // console.log(req.body);
   //Find if email exists in DB
   User.findOne({ email: email }, (err, response) => {
     if (Object.entries(response).length === 0) {
@@ -70,6 +70,30 @@ app.post("/user/login", (req, res) => {
       });
     } else {
       //Check if password matches
+      const passwordHash = response.password;
+      bcrypt.compare(password, passwordHash, (err, doesPasswordMatch) => {
+        if (err) {
+          res.json({
+            auth: false,
+            message: "An error occurred!",
+          });
+        } else {
+          if (doesPasswordMatch) {
+            //Password is correct get user id and create jwt
+            const userID = response.userID;
+            const token = signJWT(userID);
+            console.log(token);
+            res.json({
+              auth: true,
+              token: token,
+            });
+          } else {
+            res.json({
+              auth: false,
+            });
+          }
+        }
+      });
     }
   });
 });
