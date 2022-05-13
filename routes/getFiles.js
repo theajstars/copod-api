@@ -9,7 +9,9 @@ const trainTop2000 = require("../assets/COPOD_Sets/trainTop2000.json");
 
 const newDataSets = {
   topHalf: require("../assets/COPOD_Sets/Israeli_Datasets/df500000.json"),
+  bottomHalf: require("../assets/COPOD_Sets/Israeli_Datasets/dfbottom500000.json")
 };
+console.log(newDataSets.topHalf.length);
 app.get("/datasets/bottomhalf", (req, res) => {
   res.json({
     file: bottomHalf,
@@ -43,5 +45,10 @@ app.get("/datasets/top2000", (req, res) => {
 app.get("/datasets/new/tophalf", (req, res) => {
   res.json({
     file: newDataSets.topHalf,
+  });
+});
+app.get("/datasets/new/bottomhalf", (req, res) => {
+  res.json({
+    file: newDataSets.bottomHalf,
   });
 });
