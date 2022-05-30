@@ -60,14 +60,13 @@ app.post("/user/register", (req, res) => {
 
 app.post("/user/login", (req, res) => {
   const { email, password } = req.body;
-  // console.log(req.body);
+  console.log(req.body);
   //Find if email exists in DB
   User.findOne({ email: email }, (err, response) => {
-    if (Object.entries(response).length === 0) {
-      // Record not found
-      res.json({
-        auth: false,
-      });
+    console.log(response);
+    if (response === null) {
+      //Record not found
+      console.log("Not found!");
     } else {
       //Check if password matches
       const passwordHash = response.password;
