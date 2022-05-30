@@ -24,8 +24,7 @@ const verifyJWT = (req, res, next) => {
           message: "Failed to authenticate with token!",
         });
       } else {
-        console.log(decoded);
-        req.userID = decoded.id;
+        req.userID = decoded.userID;
         next();
       }
     });
