@@ -6,6 +6,10 @@ const TestSchema = new Schema({
     type: String,
     required: true,
   },
+  testID: {
+    type: String,
+    required: true,
+  },
   testObject: {
     type: Object,
     required: true,
