@@ -4,6 +4,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const { verifyJWT } = require("./modules/main");
 const uri = process.env.mongoDB_URI;
 
 app.use(
@@ -21,6 +22,12 @@ app.get("/", (req, res) => {
   res.json({
     message: "Connected successfully!",
     connected: true,
+  });
+});
+//Check if user is authenticated or not
+app.get("/isUserAuth", verifyJWT, (req, res) => {
+  res.json({
+    auth: true,
   });
 });
 mongoose
