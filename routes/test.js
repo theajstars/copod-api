@@ -34,6 +34,7 @@ app.post("/test/view", verifyJWT, (req, res) => {
     } else {
       res.json({
         success: true,
+        userTestResult,
       });
     }
   });
@@ -47,7 +48,7 @@ app.post("/test/new", verifyJWT, (req, res) => {
     length: 12,
     charset: "alphanumeric",
   });
-  const testID = random.concat(userID);
+  const testID = random.concat(userID.substr(0, 5));
   const { testObject, verdict, userVerdict, testResult } = req.body;
   const newTest = new Test({
     userID: userID,
