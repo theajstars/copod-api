@@ -56,6 +56,7 @@ app.post("/test/new", verifyJWT, (req, res) => {
     verdict: verdict,
     userVerdict: userVerdict,
     testResult: testResult,
+    testDate: Date.now(),
   });
   newTest.save();
   res.json({
