@@ -66,7 +66,10 @@ app.post("/user/login", (req, res) => {
     console.log(response);
     if (response === null) {
       //Record not found
-      console.log("Not found!");
+      console.log("User not found");
+      res.json({
+        userNotFound: true,
+      });
     } else {
       //Check if password matches
       const passwordHash = response.password;
