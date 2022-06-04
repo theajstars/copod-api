@@ -6,6 +6,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const { verifyJWT } = require("./modules/main");
 const uri = process.env.mongoDB_URI;
+const port = process.env.PORT || 8080;
 
 app.use(
   cors({
@@ -15,8 +16,6 @@ app.use(
 );
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-const port = process.env.PORT;
 
 app.get("/", (req, res) => {
   res.json({
