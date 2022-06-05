@@ -59,9 +59,16 @@ app.post("/test/new", verifyJWT, (req, res) => {
     testResult: testResult,
     testDate: Date.now(),
   });
-  newTest.save();
-  res.json({
-    success: true,
+  newTest.save((err) => {
+    if (err) {
+      res.json({
+        success: false,
+      });
+    } else {
+      res.json({
+        success: true,
+      });
+    }
   });
 });
 
