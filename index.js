@@ -11,7 +11,7 @@ const port = process.env.PORT || 8080;
 app.use(
   cors({
     // origin: ["http://localhost:3000"],
-    origin: ["https://copodtwo.netlify.app"],
+    origin: ["https://copodtwo.netlify.app", "https://copod.software"],
     methods: ["GET", "POST"],
   })
 );
