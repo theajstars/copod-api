@@ -12,7 +12,7 @@ app.use(
   cors({
     // origin: ["http://localhost:3000"],
     // origin: ["https://copodtwo.netlify.app", "https://copod.software"],
-    origin: ["https://www.copod.software"],
+    origin: "*",
     methods: ["GET", "POST"],
   })
 );
